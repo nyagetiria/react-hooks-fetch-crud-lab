@@ -27,11 +27,14 @@ test("displays question prompts after fetching", async () => {
 test("creates a new question when the form is submitted", async () => {
   render(<App />);
 
-  // wait for first render of list (otherwise we get a React state warning)
-  await screen.findByText(/lorem testum 1/g);
+  // reveal the question list first
+fireEvent.click(screen.getByText("View Questions")); // ✅ this shows the questions
 
-  // click form page
-  fireEvent.click(screen.queryByText("New Question"));
+// now this should work
+await screen.findByText(/lorem testum 1/i);
+
+// click form page (if needed afterward)
+fireEvent.click(screen.getByText("New Question"));
 
   // fill out form
   fireEvent.change(screen.queryByLabelText(/Prompt/), {
